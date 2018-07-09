@@ -1,23 +1,73 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Form from './Form';
+import Field from './msgField';
 
 class App extends Component {
+
+  state = {
+    messages : [],
+    textMessage: ""
+  };
+
+  constructor (props){
+    super(props);
+
+
+    this.onTextMassageChange = this.onTextMassageChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onTextMassageChange(e) {  
+    this.setState({textMessage: e.target.value});
+  }
+
+  onSubmit(event) {
+    ( this.state.textMessage &&
+    this.setState({
+      messages: [...this.state.messages, this.state.textMessage],
+      textMessage: ""
+    }));
+    
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    if(document.querySelector('.field'))
+    console.dir(document.querySelector('.field'));
+    // .scrollWidth = 5;
+  }
+
+  componentDidUpdate() {
+    if(document.querySelector('.field'))
+    document.querySelector('.field').scrollTop = 99999999;
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h2>Thats all that i can add to this page</h2>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, ipsam. Facere 
-          doloremque ab quos recusandae voluptatibus quae corporis vel, consectetur quod 
-          ipsum minus, possimus dolore! Facilis tempora incidunt ad alias?</p>
-      </div>
+        <div className='App'>
+          <div className='Users'>
+            <div className='User Link'>
+              <img src="user/avatar" alt="ava"/>
+              <p className='nickName'>User 1</p>
+            </div>
+            <div className='Add Link'>
+              <p>Add new contact</p>
+            </div>
+          </div>
+
+          <div className='messages'>
+            <Field 
+              msg={this.state.messages} 
+              user='User 1'
+            />
+            <Form  
+              value={this.state.textMessage} 
+              onChange={this.onTextMassageChange}
+              onClick={this.onSubmit}
+            />
+          </div>
+        </div>
     );
   }
 }
